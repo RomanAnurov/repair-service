@@ -1,0 +1,83 @@
+# docker-compose.yml
+services:
+  db:
+    image: mysql:8.0
+    container_name: repair_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: repair_service
+      MYSQL_USER: repair_user
+      MYSQL_PASSWORD: repair_pass
+      # Эти 2 строки обязательны:
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    # Эта команда обязательна:
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - repair_network
+
+  # Бэкенд (Node.js)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: repair_backend
+    restart: unless-stopped
+    environment:
+      PORT: 3001
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: repair_service
+      DB_USER: repair_user
+      DB_PASSWORD: repair_pass
+      NODE_ENV: development
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - repair_network
+    command: >
+      sh -c "npm install && npm run seed && npm run dev"
+
+  # Фронтенд (React) — пока можно закомментировать, если фронтенд ещё не готов
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: repair_frontend
+    restart: unless-stopped
+    environment:
+      REACT_APP_API_URL: http://localhost:3001/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - repair_network
+
+# Том для сохранения данных БД
+volumes:
+  mysql_data:  # ✅ Это имя должно совпадать с использованием выше
+    driver: local
+
+# Сеть для связи контейнеров
+networks:
+  repair_network:
+    driver: bridge
