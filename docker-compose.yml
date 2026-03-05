@@ -1,6 +1,7 @@
 # docker-compose.yml
 services:
   db:
+    # ... (без изменений, ваш конфиг DB отличный!)
     image: mysql:8.0
     container_name: repair_db
     environment:
@@ -8,10 +9,8 @@ services:
       MYSQL_DATABASE: repair_service
       MYSQL_USER: repair_user
       MYSQL_PASSWORD: repair_pass
-      # Эти 2 строки обязательны:
       MYSQL_CHARSET: utf8mb4
       MYSQL_COLLATION: utf8mb4_unicode_ci
-    # Эта команда обязательна:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -28,7 +27,6 @@ services:
     networks:
       - repair_network
 
-  # Бэкенд (Node.js)
   backend:
     build:
       context: ./backend
@@ -53,18 +51,17 @@ services:
       - /app/node_modules
     networks:
       - repair_network
+    # ✅ ИСПРАВЛЕНО: добавлен npm run migrate перед seed
     command: >
-      sh -c "npm install && npm run seed && npm run dev"
+      sh -c "npm install && npm run migrate && npm run seed && npm run dev"
 
-  # Фронтенд (React) — пока можно закомментировать, если фронтенд ещё не готов
+  # 🎨 Фронтенд (React + Vite + Nginx)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: repair_frontend
     restart: unless-stopped
-    environment:
-      REACT_APP_API_URL: http://localhost:3001/api
     ports:
       - "3000:80"
     depends_on:
@@ -72,12 +69,10 @@ services:
     networks:
       - repair_network
 
-# Том для сохранения данных БД
 volumes:
-  mysql_data:  # ✅ Это имя должно совпадать с использованием выше
+  mysql_data:
     driver: local
 
-# Сеть для связи контейнеров
 networks:
   repair_network:
     driver: bridge

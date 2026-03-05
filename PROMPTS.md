@@ -8,3 +8,10 @@
 
 | 2026-03-03 14:15 | "что такое сиды в данном случае?" | Объяснение: Seeds — скрипт для заполнения БД тестовыми данными |
 | 2026-03-04 01:10 | "MySQL кодировка всё ещё latin1 после исправлений" | Полное решение: удаление тома, пересоздание БД, проверка dialectOptions в Sequelize |E
+
+| 2026-03-04 09:00 | "Создание фронтенда: React + Vite + SCSS Modules" | Структура: компоненты в папках с .jsx + .module.scss, 3 страницы для скриншотов |
+
+| 2026-03-04 11:00 | "Создание frontend/.dockerignore" | Настройка игнорирования node_modules, dist, .git для быстрой Docker сборки |
+| 2026-03-04 12:10 | "Backend loop: Validation error в сидах → 502 в фронтенде" | Решение: docker compose down -v + ignoreDuplicates в bulkInsert |
+
+| 2026-03-04 12:40 | "Frontend fix: Dispatcher filter stale state bug" | Исправление: передача filterStatus напрямую в loadRequests вместо reliance на async setFilter |

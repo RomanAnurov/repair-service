@@ -6,28 +6,16 @@
 ## 🚀 Быстрый старт
 
 ### Вариант A: Docker Compose (рекомендуется)
+
 ```bash
-docker-compose up --build
+# Одна команда — и всё работает!
+docker compose up --build
 
 
 Приложение доступно:
 Фронтенд: http://localhost:3000
 Бэкенд: http://localhost:3001
 
-
-Вариант B: Локальный запуск
-
-# Бэкенд
-cd backend
-npm install
-npm run migrate
-npm run seed
-npm start
-
-# Фронтенд (в другом терминале)
-cd frontend
-npm install
-npm run dev
 
 
 👥 Тестовые пользователи
@@ -40,17 +28,20 @@ npm run dev
 
 🧪 Проверка защиты от гонок
 
-# Терминал 1
-curl -X POST http://localhost:3001/api/requests/1/take \
-  -H "Content-Type: application/json" \
-  -H "Authorization: master1"
+🔹 Способ 1: Автотест (рекомендуется)
+# Запустить тесты
+docker-compose exec backend npm test
 
-# Терминал 2 (запустить почти одновременно)
-curl -X POST http://localhost:3001/api/requests/1/take \
-  -H "Content-Type: application/json" \
-  -H "Authorization: master2"
+🔹 Способ 2: Скрипт test-race.sh (автоматически)
+# Запустить скрипт
+./test-race.sh
 
-# Ожидаемый результат: один 200 OK, второй 409 Conflict
+Что делает скрипт:
+✅ Проверяет, что бэкенд доступен
+✅ Находит последнюю заявку в списке
+✅ Назначает её мастеру (статус → assigned)
+✅ Запускает два запроса take одновременно
+✅ Проверяет, что один получил 200, второй 409
 
 
 📁 Структура проекта
@@ -64,4 +55,32 @@ repair-service/
 └── PROMPTS.md
 
 
-📸 Скриншоты
+ Быстрые команды для повседневной работы
+
+ # Одна команда — и всё работает!
+docker compose up --build
+
+ # 🔁 Перезапустить всё (без пересборки)
+docker compose restart
+
+# 🔁 Пересобрать и перезапустить
+docker compose up --build -d
+
+# 🛑 Остановить (сохранить данные БД)
+docker compose down
+
+# 🗑️ Полностью сбросить (удалить данные БД)
+docker compose down -v
+
+# 📋 Посмотреть логи
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# 🧪 Запустить тесты
+docker-compose exec backend npm test
+
+# 🐚 Войти в контейнер бэкенда
+docker-compose exec backend sh
+
+# 🐚 Войти в контейнер БД
+docker-compose exec db mysql -u repair_user -prepair_pass repair_service

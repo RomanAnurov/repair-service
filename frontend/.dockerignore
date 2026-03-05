@@ -1,0 +1,44 @@
+# frontend/.dockerignore
+
+# Зависимости (используем volume mount вместо копирования)
+node_modules/
+npm-debug.log
+
+# Сборка (собирается внутри контейнера)
+dist/
+build/
+
+# Git
+.git
+.gitignore
+
+# Окружение
+.env
+.env.local
+.env.*.local
+
+# Редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Тесты
+coverage/
+*.test.js
+*.spec.js
+
+# Логи
+*.log
+logs/
+
+# Временные файлы
+tmp/
+temp/
+.cache/

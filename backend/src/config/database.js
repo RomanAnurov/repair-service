@@ -1,22 +1,24 @@
-const { Sequelize } = require('sequelize');
 require('dotenv').config();
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'repair_service',
   process.env.DB_USER || 'root',
   process.env.DB_PASSWORD || 'root',
   {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'db',
     port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
     logging: false,
-    // Обязательно добавьте dialectOptions:
+    
+    // ✅ dialectOptions — только connectTimeout
     dialectOptions: {
-      charset: 'utf8mb4',
-      collation: 'utf8mb4_unicode_ci',
-      useUTC: false,
-      timezone: '+03:00'
+      connectTimeout: 60000
     },
+    
+    // ✅ Кодировка на верхнем уровне (важно!)
+    charset: 'utf8mb4',
+    
     pool: {
       max: 5,
       min: 0,

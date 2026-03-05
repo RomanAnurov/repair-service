@@ -1,0 +1,112 @@
+// frontend/src/components/RequestCard/RequestCard.module.scss
+@use '@/styles/variables' as *;
+
+.card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+}
+
+.clientName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.status {
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: 0.875rem;
+  font-weight: 500;
+  
+  &.new {
+    background: lighten($color-warning, 30%);
+    color: darken($color-warning, 20%);
+  }
+  
+  &.assigned {
+    background: lighten($color-primary, 30%);
+    color: darken($color-primary, 20%);
+  }
+  
+  &.in_progress {
+    background: lighten($color-success, 30%);
+    color: darken($color-success, 20%);
+  }
+  
+  &.done {
+    background: $color-bg;
+    color: $color-text-light;
+  }
+  
+  &.canceled {
+    background: lighten($color-danger, 30%);
+    color: darken($color-danger, 20%);
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.address,
+.phone,
+.problem,
+.assigned {
+  margin: 0;
+  color: $color-text-light;
+  font-size: 0.95rem;
+}
+
+.problem {
+  color: $color-text;
+  font-weight: 500;
+}
+
+.footer {
+  display: flex;
+  gap: $spacing-sm;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-border;
+}
+
+// ✅ Новые стили для выбора мастера
+.assignWrapper {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.masterSelect {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-card;
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-width: 140px;
+  
+  &:focus {
+    outline: 2px solid $color-primary;
+    border-color: $color-primary;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3001
 
 # Команда запуска (переопределяется в docker-compose.yml)
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

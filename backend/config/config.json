@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "repair_user",
+    "password": "repair_pass",
+    "database": "repair_service",
+    "host": "db",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "test": {
+    "username": "repair_user",
+    "password": "repair_pass",
+    "database": "repair_service_test",
+    "host": "db",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "production": {
+    "username": "repair_user",
+    "password": "repair_pass",
+    "database": "repair_service",
+    "host": "db",
+    "dialect": "mysql",
+    "port": 3306
+  }
+}

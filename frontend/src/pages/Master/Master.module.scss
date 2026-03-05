@@ -1,0 +1,42 @@
+@use '@/styles/variables' as *;
+
+.page {
+  min-height: 100vh;
+  padding: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $color-border;
+  
+  h1 {
+    font-size: 1.5rem;
+    color: $color-text;
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: $spacing-md;
+}
+
+.empty {
+  text-align: center;
+  color: $color-text-light;
+  padding: $spacing-xl;
+  grid-column: 1 / -1;
+}
+
+.loading {
+  text-align: center;
+  padding: $spacing-xl;
+  font-size: 1.125rem;
+  color: $color-text-light;
+}
